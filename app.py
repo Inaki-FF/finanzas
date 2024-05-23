@@ -26,6 +26,9 @@ if st.button("Submit Query"):
     mate_fin_4 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 4.pdf"]).load_data()
     mate_fin_5 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 5.pdf"]).load_data()
     valuación = SimpleDirectoryReader(input_files=["./files/Valuación de Empresas DCF-MúltiplosFF.pdf"]).load_data()
+    costo = SimpleDirectoryReader(input_files=["./files/Costo Promedio Ponderado del Capital.pdf"]).load_data()
+    mvaluacion = SimpleDirectoryReader(input_files=["./files/Métodos de Valuación.pdf"]).load_data()
+    incertidumbre = SimpleDirectoryReader(input_files=["./files/Proyectos-Incertidumbre.pdf"]).load_data()
 
     acciones_index = VectorStoreIndex.from_documents(acciones)
     bonos_index = VectorStoreIndex.from_documents(bonos)
@@ -34,6 +37,9 @@ if st.button("Submit Query"):
     mate_fin_4_index = VectorStoreIndex.from_documents(mate_fin_4)
     mate_fin_5_index = VectorStoreIndex.from_documents(mate_fin_5)
     valuación_index = VectorStoreIndex.from_documents(valuación)
+    costo_index = VectorStoreIndex.from_documents(costo)
+    mvaluacion_index = VectorStoreIndex.from_documents(mvaluacion)
+    incertidumbre_index = VectorStoreIndex.from_documents(incertidumbre)
 
     acciones_engine = acciones_index.as_query_engine(similarity_top_k=3)
     bonos_engine = bonos_index.as_query_engine(similarity_top_k=3)
@@ -42,6 +48,10 @@ if st.button("Submit Query"):
     mate_fin_4_engine = mate_fin_4_index.as_query_engine(similarity_top_k=3)
     mate_fin_5_engine = mate_fin_5_index.as_query_engine(similarity_top_k=3)
     valuación_engine = valuación_index.as_query_engine(similarity_top_k=3)
+    costo_engine = costo_index.as_query_engine(similarity_top_k=3)
+    mvaluacion_engine = mvaluacion_index.as_query_engine(similarity_top_k=3)
+    incertidumbre_engine = incertidumbre_index.as_query_engine(similarity_top_k=3)
+
 
     query_engine_tools = [
         QueryEngineTool(
@@ -71,6 +81,18 @@ if st.button("Submit Query"):
         QueryEngineTool(
             query_engine=valuación_engine,
             metadata=ToolMetadata(name="valuación", description="Provides information about Company Valuation DCF-MúltiplosFF"),
+        ),
+        QueryEngineTool(
+            query_engine=costo_engine,
+            metadata=ToolMetadata(name="costo", description="Provides information about Weighted Average Cost of Capital"),
+        ),
+        QueryEngineTool(
+            query_engine=mvaluacion_engine,
+            metadata=ToolMetadata(name="mvaluacion", description="Provides information about Valuation Methods"),
+        ),
+        QueryEngineTool(
+            query_engine=incertidumbre_engine,
+            metadata=ToolMetadata(name="incertidumbre", description="Provides information about Projects-Uncertainty"),
         ),
     ]
 
