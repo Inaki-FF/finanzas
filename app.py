@@ -9,6 +9,7 @@ import openai
 
 # Set API keys
 openai.api_key = st.secrets["OPENAI_API_KEY"]
+os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
 
 # Streamlit title
 st.title("Financial Data Query App")
