@@ -30,6 +30,7 @@ if st.button("Submit Query"):
     mvaluacion = SimpleDirectoryReader(input_files=["./files/Métodos de Valuación.pdf"]).load_data()
     incertidumbre = SimpleDirectoryReader(input_files=["./files/Proyectos-Incertidumbre.pdf"]).load_data()
     book = SimpleDirectoryReader(input_files=["./files/book.pdf"]).load_data()
+    book2 = SimpleDirectoryReader(input_files=["./files/book2.pdf"]).load_data()
 
     acciones_index = VectorStoreIndex.from_documents(acciones)
     bonos_index = VectorStoreIndex.from_documents(bonos)
@@ -42,6 +43,7 @@ if st.button("Submit Query"):
     mvaluacion_index = VectorStoreIndex.from_documents(mvaluacion)
     incertidumbre_index = VectorStoreIndex.from_documents(incertidumbre)
     book_index = VectorStoreIndex.from_documents(book)
+    book2_index = VectorStoreIndex.from_documents(book2)
 
     acciones_engine = acciones_index.as_query_engine(similarity_top_k=3)
     bonos_engine = bonos_index.as_query_engine(similarity_top_k=3)
@@ -54,6 +56,7 @@ if st.button("Submit Query"):
     mvaluacion_engine = mvaluacion_index.as_query_engine(similarity_top_k=3)
     incertidumbre_engine = incertidumbre_index.as_query_engine(similarity_top_k=3)
     book_engine = book_index.as_query_engine(similarity_top_k=3)
+    book2_engine = book2_index.as_query_engine(similarity_top_k=3)
 
     query_engine_tools = [
         QueryEngineTool(
@@ -99,6 +102,10 @@ if st.button("Submit Query"):
         QueryEngineTool(
             query_engine=book_engine,
             metadata=ToolMetadata(name="book", description="Provides a lot of information regarding any matter on Financial Mathematics"),
+        ),
+        QueryEngineTool(
+            query_engine=book2_engine,
+            metadata=ToolMetadata(name="book2", description="Provides a lot of information regarding any matter on Financial Mathematics this should be your first choice if you are looking for information on Financial Mathematics"),
         ),
     ]
 
