@@ -29,6 +29,7 @@ if st.button("Submit Query"):
     costo = SimpleDirectoryReader(input_files=["./files/Costo Promedio Ponderado del Capital.pdf"]).load_data()
     mvaluacion = SimpleDirectoryReader(input_files=["./files/Métodos de Valuación.pdf"]).load_data()
     incertidumbre = SimpleDirectoryReader(input_files=["./files/Proyectos-Incertidumbre.pdf"]).load_data()
+    book = SimpleDirectoryReader(input_files=["./files/book.pdf"]).load_data()
 
     acciones_index = VectorStoreIndex.from_documents(acciones)
     bonos_index = VectorStoreIndex.from_documents(bonos)
@@ -40,6 +41,7 @@ if st.button("Submit Query"):
     costo_index = VectorStoreIndex.from_documents(costo)
     mvaluacion_index = VectorStoreIndex.from_documents(mvaluacion)
     incertidumbre_index = VectorStoreIndex.from_documents(incertidumbre)
+    book_index = VectorStoreIndex.from_documents(book)
 
     acciones_engine = acciones_index.as_query_engine(similarity_top_k=3)
     bonos_engine = bonos_index.as_query_engine(similarity_top_k=3)
@@ -51,7 +53,7 @@ if st.button("Submit Query"):
     costo_engine = costo_index.as_query_engine(similarity_top_k=3)
     mvaluacion_engine = mvaluacion_index.as_query_engine(similarity_top_k=3)
     incertidumbre_engine = incertidumbre_index.as_query_engine(similarity_top_k=3)
-
+    book_engine = book_index.as_query_engine(similarity_top_k=3)
 
     query_engine_tools = [
         QueryEngineTool(
@@ -93,6 +95,10 @@ if st.button("Submit Query"):
         QueryEngineTool(
             query_engine=incertidumbre_engine,
             metadata=ToolMetadata(name="incertidumbre", description="Provides information about Projects-Uncertainty"),
+        ),
+        QueryEngineTool(
+            query_engine=book_engine,
+            metadata=ToolMetadata(name="book", description="Provides a lot of information regarding any matter on Financial Mathematics"),
         ),
     ]
 
