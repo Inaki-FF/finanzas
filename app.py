@@ -23,6 +23,7 @@ if st.button("Submit Query"):
     bonos = SimpleDirectoryReader(input_files=["./files/Bonos.pdf"]).load_data()
     mate_fin_1 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 1.pdf"]).load_data()
     mate_fin_2 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 2.pdf"]).load_data()
+    mate_fin_3 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 3.pdf"]).load_data()
     mate_fin_4 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 4.pdf"]).load_data()
     mate_fin_5 = SimpleDirectoryReader(input_files=["./files/Matemáticas Financieras Parte 5.pdf"]).load_data()
     valuación = SimpleDirectoryReader(input_files=["./files/Valuación de Empresas DCF-MúltiplosFF.pdf"]).load_data()
@@ -36,6 +37,7 @@ if st.button("Submit Query"):
     bonos_index = VectorStoreIndex.from_documents(bonos)
     mate_fin_1_index = VectorStoreIndex.from_documents(mate_fin_1)
     mate_fin_2_index = VectorStoreIndex.from_documents(mate_fin_2)
+    mate_fin_3_index = VectorStoreIndex.from_documents(mate_fin_4)
     mate_fin_4_index = VectorStoreIndex.from_documents(mate_fin_4)
     mate_fin_5_index = VectorStoreIndex.from_documents(mate_fin_5)
     valuación_index = VectorStoreIndex.from_documents(valuación)
@@ -45,18 +47,19 @@ if st.button("Submit Query"):
     book_index = VectorStoreIndex.from_documents(book)
     book2_index = VectorStoreIndex.from_documents(book2)
 
-    acciones_engine = acciones_index.as_query_engine(similarity_top_k=3)
-    bonos_engine = bonos_index.as_query_engine(similarity_top_k=3)
-    mate_fin_1_engine = mate_fin_1_index.as_query_engine(similarity_top_k=3)
-    mate_fin_2_engine = mate_fin_2_index.as_query_engine(similarity_top_k=3)
-    mate_fin_4_engine = mate_fin_4_index.as_query_engine(similarity_top_k=3)
-    mate_fin_5_engine = mate_fin_5_index.as_query_engine(similarity_top_k=3)
-    valuación_engine = valuación_index.as_query_engine(similarity_top_k=3)
-    costo_engine = costo_index.as_query_engine(similarity_top_k=3)
-    mvaluacion_engine = mvaluacion_index.as_query_engine(similarity_top_k=3)
-    incertidumbre_engine = incertidumbre_index.as_query_engine(similarity_top_k=3)
-    book_engine = book_index.as_query_engine(similarity_top_k=3)
-    book2_engine = book2_index.as_query_engine(similarity_top_k=3)
+    acciones_engine = acciones_index.as_query_engine(similarity_top_k=5)
+    bonos_engine = bonos_index.as_query_engine(similarity_top_k=5)
+    mate_fin_1_engine = mate_fin_1_index.as_query_engine(similarity_top_k=5)
+    mate_fin_2_engine = mate_fin_2_index.as_query_engine(similarity_top_k=5)
+    mate_fin_3_engine = mate_fin_3_index.as_query_engine(similarity_top_k=5)
+    mate_fin_4_engine = mate_fin_4_index.as_query_engine(similarity_top_k=5)
+    mate_fin_5_engine = mate_fin_5_index.as_query_engine(similarity_top_k=5)
+    valuación_engine = valuación_index.as_query_engine(similarity_top_k=5)
+    costo_engine = costo_index.as_query_engine(similarity_top_k=5)
+    mvaluacion_engine = mvaluacion_index.as_query_engine(similarity_top_k=5)
+    incertidumbre_engine = incertidumbre_index.as_query_engine(similarity_top_k=5)
+    book_engine = book_index.as_query_engine(similarity_top_k=5)
+    book2_engine = book2_index.as_query_engine(similarity_top_k=5)
 
     query_engine_tools = [
         QueryEngineTool(
@@ -69,19 +72,24 @@ if st.button("Submit Query"):
         ),
         QueryEngineTool(
             query_engine=mate_fin_1_engine,
-            metadata=ToolMetadata(name="mate_fin_1", description="Provides information about Financial Mathematics Part 1"),
+            metadata=ToolMetadata(name="mate_fin_1", description="Provides information about Financial Mathematics"),
         ),
         QueryEngineTool(
             query_engine=mate_fin_2_engine,
-            metadata=ToolMetadata(name="mate_fin_2", description="Provides information about Financial Mathematics Part 2"),
+            metadata=ToolMetadata(name="mate_fin_2", description="Provides information about Financial Mathematics"),
         ),
         QueryEngineTool(
+            query_engine=mate_fin_3_engine,
+            metadata=ToolMetadata(name="mate_fin_3", description="Provides information about Financial Mathematics"),
+        ),
+            
+        QueryEngineTool(
             query_engine=mate_fin_4_engine,
-            metadata=ToolMetadata(name="mate_fin_4", description="Provides information about Financial Mathematics Part 4"),
+            metadata=ToolMetadata(name="mate_fin_4", description="Provides information about Financial Mathematics "),
         ),
         QueryEngineTool(
             query_engine=mate_fin_5_engine,
-            metadata=ToolMetadata(name="mate_fin_5", description="Provides information about Financial Mathematics Part 5"),
+            metadata=ToolMetadata(name="mate_fin_5", description="Provides information about Financial Mathematics"),
         ),
         QueryEngineTool(
             query_engine=valuación_engine,
@@ -101,11 +109,11 @@ if st.button("Submit Query"):
         ),
         QueryEngineTool(
             query_engine=book_engine,
-            metadata=ToolMetadata(name="book", description="Provides a lot of information regarding any matter on Financial Mathematics"),
+            metadata=ToolMetadata(name="book", description="Provides a lot of information regarding any matter on Financial Mathematics and every formula or data you need"),
         ),
         QueryEngineTool(
             query_engine=book2_engine,
-            metadata=ToolMetadata(name="book2", description="Provides a lot of information regarding any matter on Financial Mathematics this should be your first choice if you are looking for information on Financial Mathematics"),
+            metadata=ToolMetadata(name="book2", description="Provides a lot of information regarding any matter on Financial Mathematics this should be your first choice if you are looking for information on Financial Mathematics or any other matter related to it."),
         ),
     ]
 
